@@ -14,7 +14,7 @@ namespace WebApp.Services
             _options = options;
         }
 
-        public async Task<List<CarViewModel>> GetCarsAsync(int year = 1996)
+        public async Task<List<CarViewModel>> GetCarsAsync(int year)
         {
             _httpClient.DefaultRequestHeaders.Clear();
             _httpClient.DefaultRequestHeaders.Add("X-Api-Key", _options.ApiKey);
