@@ -1,0 +1,15 @@
+﻿@model WebApp.Models.CarViewModel
+
+<div class="col">
+    <div class="card shadow-sm h-100">
+        <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Make @Model.Model">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Make @Model.Model</h5>
+            <p class="card-text text-muted mb-1"><strong>Year:</strong> @Model.Year</p>
+            <p class="card-text mb-0"><strong>Class:</strong> @Model.Class</p>
+            <p class="card-text mb-0"><strong>Transmission:</strong> @Model.Transmission</p>
+            <p class="card-text mb-0"><strong>Drive:</strong> @Model.Drive</p>
+            <p class="card-text mb-0"><strong>Fuel:</strong> @Model.Fuel_Type</p>
+        </div>
+    </div>
+</div>

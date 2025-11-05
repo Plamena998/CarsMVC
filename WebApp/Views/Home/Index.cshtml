@@ -1,0 +1,16 @@
+﻿@model IEnumerable<WebApp.Models.CarViewModel>
+
+@{
+    ViewData["Title"] = "Top 10 Cars (1996)";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @foreach (var car in Model)
+        {
+            <partial name="_CarCard" model="car" />
+        }
+    </div>
+</div>
