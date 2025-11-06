@@ -9,9 +9,8 @@
         public string? Class { get; set; }
         public string? Drive { get; set; }
         public string? Transmission { get; set; }
-        public string? Fuel_Type { get; set; }   // забележи: с долна черта, както в JSON
+        public string? Fuel_Type { get; set; } 
 
-        // Премиум полета – оставяме ги като string
         public string? City_Mpg { get; set; }
         public string? Combination_Mpg { get; set; }
         public string? Highway_Mpg { get; set; }

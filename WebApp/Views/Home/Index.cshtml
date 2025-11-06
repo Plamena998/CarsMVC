@@ -1,156 +1,216 @@
 ﻿@model IEnumerable<WebApp.Models.CarViewModel>
 
 @{
-    ViewData["Title"] = "Top 10 Cars (1996)";
+    ViewData["Title"] = "Top Cars";
 }
 
-<div class="container">
-    <h2 class="title">@ViewData["Title"]</h2>
+<h2 class="page-title">Top 10 Cars from 1996</h2>
 
-    <div class="car-grid">
-        @foreach (var car in Model)
-        {
-            <div class="car-card">
-                <img src="@car.ImageUrl" alt="@car.Make @car.Model" class="car-img" />
-                <div class="car-info">
-                    <h3>@car.Make @car.Model</h3>
-                    <p><strong>Year:</strong> @car.Year</p>
-                    <p><strong>Class:</strong> @car.Class</p>
-                    <p><strong>Transmission:</strong> @car.Transmission</p>
-                    <p><strong>Drive:</strong> @car.Drive</p>
-                    <p><strong>Fuel:</strong> @car.Fuel_Type</p>
-                </div>
+<div class="card-grid">
+    @foreach (var car in Model)
+    {
+        <div class="car-card" onclick="openCarModal('@car.Make', '@car.Model', '@car.Year', '@car.Class', '@car.Drive', '@car.Fuel_Type', '@car.Transmission', '@car.ImageUrl')">
+            <img src="@car.ImageUrl" alt="@car.Make @car.Model" />
+            <div class="card-content">
+                <h3>@car.Make @car.Model</h3>
+                <button class="more-btn" type="button">More</button>
             </div>
-        }
+        </div>
+    }
+</div>
+
+<!-- Modal Window -->
+<div id="carModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeCarModal()">&times;</span>
+        <img id="modalImage" src="" alt="Car Image" />
+        <h3 id="modalTitle"></h3>
+        <div id="modalDetails"></div>
+        <button class="close-modal-btn" onclick="closeCarModal()">Close</button>
     </div>
 </div>
 
+<script>
+    function openCarModal(make, model, year, carClass, drive, fuel, transmission, imageUrl) {
+        document.getElementById("modalTitle").innerText = `${make} ${model}`;
+        document.getElementById("modalImage").src = imageUrl;
+        document.getElementById("modalDetails").innerHTML = `
+            <p><strong>Year:</strong> ${year}</p>
+            <p><strong>Class:</strong> ${carClass}</p>
+            <p><strong>Drive:</strong> ${drive}</p>
+            <p><strong>Fuel:</strong> ${fuel}</p>
+            <p><strong>Transmission:</strong> ${transmission}</p>
+        `;
+        const modal = document.getElementById("carModal");
+        modal.style.display = "flex";
+        setTimeout(() => modal.classList.add("show"), 10);
+    }
+
+    function closeCarModal() {
+        const modal = document.getElementById("carModal");
+        modal.classList.remove("show");
+        setTimeout(() => { modal.style.display = "none"; }, 300);
+    }
+
+    window.onclick = function (event) {
+        const modal = document.getElementById("carModal");
+        if (event.target === modal) {
+            closeCarModal();
+        }
+    }
+</script>
+
 <style>
-    /* === Основен контейнер === */
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 40px 20px;
+    .page-title {
         text-align: center;
+        margin: 30px 0;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #333;
     }
 
-    .title {
-        margin-bottom: 40px;
-        font-size: 2rem;
-        font-weight: 600;
-        color: #222;
-    }
-
-    /* === Грид с 5 колони === */
-    .car-grid {
+    .card-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 25px;
-        justify-items: center;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        padding: 0 40px 40px;
     }
 
-    /* === Стил за картите === */
     .car-card {
         background: #fff;
         border-radius: 16px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
         overflow: hidden;
-        text-align: left;
-        width: 100%;
-        max-width: 220px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         cursor: pointer;
-        opacity: 0;
-        transform: translateY(15px) scale(0.98);
-        animation: fadeInUp 0.6s forwards;
+        position: relative;
     }
 
-        /* === Hover ефект === */
         .car-card:hover {
-            transform: translateY(-6px) scale(1.02);
+            transform: translateY(-6px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
         }
 
-    /* === Картинки === */
-    .car-img {
-        width: 100%;
-        height: 140px;
-        object-fit: cover;
-        background-color: #f3f3f3;
+        .car-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+    .card-content {
+        padding: 12px 15px 18px;
+        text-align: center;
     }
 
-    /* === Текстова част === */
-    .car-info {
-        padding: 12px 16px;
-        font-size: 0.9rem;
-    }
-
-        .car-info h3 {
-            font-size: 1rem;
+        .card-content h3 {
+            font-size: 1.1rem;
             margin-bottom: 8px;
-            color: #333;
-            text-transform: capitalize;
+            font-weight: 600;
+            color: #222;
         }
 
-        .car-info p {
-            margin: 2px 0;
-            color: #555;
+    .more-btn {
+        background-color: #0078D7;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 7px 14px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: background-color 0.2s ease;
+    }
+
+        .more-btn:hover {
+            background-color: #005fa3;
         }
 
-    /* === Анимация fade-in-up === */
-    @@keyframes fadeInUp {
-        from
-
-    {
+    /*Modal style */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
         opacity: 0;
-        transform: translateY(15px) scale(0.98);
+        transition: opacity 0.3s ease;
+    }
+
+        .modal.show {
+            opacity: 1;
+        }
+
+    .modal-content {
+        background-color: #fff;
+        border-radius: 16px;
+        padding: 25px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        position: relative;
+        text-align: center;
+        animation: popIn 0.3s ease forwards;
+    }
+
+    @@keyframes popIn {
+        from
+    {
+        transform: scale(0.9);
+        opacity: 0;
     }
 
     to {
+        transform: scale(1);
         opacity: 1;
-        transform: translateY(0) scale(1);
     }
 
     }
 
-    /* === Малък ефект за влизане със закъснение === */
-    .car-card:nth-child(1) {
-        animation-delay: 0.1s;
+    .modal-content img {
+        width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 15px;
     }
 
-    .car-card:nth-child(2) {
-        animation-delay: 0.2s;
+    .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        color: #888;
+        cursor: pointer;
     }
 
-    .car-card:nth-child(3) {
-        animation-delay: 0.3s;
+        .close-btn:hover {
+            color: #000;
+        }
+
+    .close-modal-btn {
+        margin-top: 15px;
+        background-color: #0078D7;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 16px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        transition: background-color 0.2s ease;
     }
 
-    .car-card:nth-child(4) {
-        animation-delay: 0.4s;
-    }
+        .close-modal-btn:hover {
+            background-color: #005fa3;
+        }
 
-    .car-card:nth-child(5) {
-        animation-delay: 0.5s;
-    }
-
-    .car-card:nth-child(6) {
-        animation-delay: 0.6s;
-    }
-
-    .car-card:nth-child(7) {
-        animation-delay: 0.7s;
-    }
-
-    .car-card:nth-child(8) {
-        animation-delay: 0.8s;
-    }
-
-    .car-card:nth-child(9) {
-        animation-delay: 0.9s;
-    }
-
-    .car-card:nth-child(10) {
-        animation-delay: 1.0s;
+    #modalDetails p {
+        text-align: left;
+        margin: 6px 0;
+        color: #444;
+        font-size: 0.95rem;
     }
 </style>

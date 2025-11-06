@@ -31,84 +31,42 @@ namespace WebApp.Services
             {
                 string url = $"{_options.Url}?make={make}&year={year}";
 
+                var response = await _httpClient.GetAsync(url);
 
-                try
+                var json = await response.Content.ReadAsStringAsync();
+
+                List<CarViewModel>? cars = null;
+
+                cars = JsonSerializer.Deserialize<List<CarViewModel>>(json, new JsonSerializerOptions
                 {
-                    var response = await _httpClient.GetAsync(url);
+                    PropertyNameCaseInsensitive = true,
+                    AllowTrailingCommas = true
+                });
 
-                    Console.WriteLine($"🔍 Requesting {make} ({year}) → {response.StatusCode}");
-
-                    var json = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"📦 JSON for {make}: {json}\n");
-
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        Console.WriteLine($"⚠️ API Error for {make}: {response.StatusCode}");
-                        continue;
-                    }
-
-                    if (string.IsNullOrWhiteSpace(json))
-                    {
-                        Console.WriteLine($"⚠️ Empty JSON for {make}");
-                        continue;
-                    }
-
-                    List<CarViewModel>? cars = null;
-
-                    try
-                    {
-                        cars = JsonSerializer.Deserialize<List<CarViewModel>>(json, new JsonSerializerOptions
-                        {
-                            PropertyNameCaseInsensitive = true,
-                            AllowTrailingCommas = true
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"❌ JSON deserialization error for {make}: {ex.Message}");
-                    }
-
-                    if (cars != null && cars.Count > 0)
-                    {
-                        allCars.AddRange(cars);
-                        Console.WriteLine($"✅ Added car: {make} ({cars[0].Model})");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"⚠️ No cars parsed for {make}");
-                    }
-                }
-                catch (Exception ex)
+                if (cars != null && cars.Count > 0)
                 {
-                    Console.WriteLine($"❌ Exception for {make}: {ex.Message}");
+                    allCars.AddRange(cars);
                 }
-
-                if (allCars.Count >= 10)
-                    break;
+                if (allCars.Count >= 10) break;
             }
 
-            // Ако API-то върне по-малко от 6 коли → добавяме примерни
-            if (allCars.Count < 10)
-            {
-                int missing = 10 - allCars.Count;
-                for (int i = 0; i < missing; i++)
-                {
-                    allCars.Add(new CarViewModel
-                    {
-                        Make = "Sample",
-                        Model = $"Demo Car {i + 1}",
-                        Year = year,
-                        Class = "Example",
-                        Fuel_Type = "Gas",
-                        Transmission = "A",
-                        Drive = "FWD"
-                    });
-                }
-
-                Console.WriteLine($"ℹ️ Added {missing} sample cars to reach 6 total.\n");
-            }
-
-            Console.WriteLine($"✅ Returning {allCars.Count} total cars.\n");
+            //if (allCars.Count < 10)
+            //{
+            //    int missing = 10 - allCars.Count;
+            //    for (int i = 0; i < missing; i++)
+            //    {
+            //        allCars.Add(new CarViewModel
+            //        {
+            //            Make = "Sample",
+            //            Model = $"Demo Car {i + 1}",
+            //            Year = year,
+            //            Class = "Example",
+            //            Fuel_Type = "Gas",
+            //            Transmission = "A",
+            //            Drive = "FWD"
+            //        });
+            //    }
+            //}
             return allCars.Take(10).ToList();
         }
     }

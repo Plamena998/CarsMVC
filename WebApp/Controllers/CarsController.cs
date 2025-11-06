@@ -14,7 +14,6 @@ namespace WebApp.Controllers
             this.carsService = carsService;
         }
 
-        // Този екшън взима параметъра make от QueryString (?make=...)
         [HttpGet]
         public async Task<IActionResult> GetCars([FromQuery] string make)
         {
