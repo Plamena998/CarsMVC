@@ -1,6 +1,7 @@
 using WebApp.Models;
 using WebApp.Services;
 using Microsoft.Extensions.Options;
+using WebApp.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,14 +11,12 @@ builder.Services.Configure<AppOptions>(
 builder.Services.AddSingleton(resolver =>
     resolver.GetRequiredService<IOptions<AppOptions>>().Value);
 
-builder.Services.AddHttpClient<CarService>((serviceProvider, client) =>
+builder.Services.AddHttpClient<ICarsService, CarService>((serviceProvider, client) =>
 {
     var options = serviceProvider.GetRequiredService<AppOptions>();
     if (!string.IsNullOrEmpty(options.Url))
         client.BaseAddress = new Uri(options.Url);
 });
-
-builder.Services.AddScoped<CarService>();
 
 builder.Services.AddControllersWithViews();
 

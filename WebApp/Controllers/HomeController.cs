@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
+using WebApp.Contracts;
 using WebApp.Services;
 
 namespace WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly CarService _carService;
+        private readonly ICarsService _carService;
 
-        public HomeController(CarService carService)
+        public HomeController(ICarsService carService)
         {
             _carService = carService;
         }

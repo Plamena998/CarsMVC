@@ -1,9 +1,10 @@
 ﻿using System.Text.Json;
+using WebApp.Contracts;
 using WebApp.Models;
 
 namespace WebApp.Services
 {
-    public class CarService
+    public class CarService : ICarsService
     {
         private readonly HttpClient _httpClient;
         private readonly AppOptions _options;
@@ -16,7 +17,7 @@ namespace WebApp.Services
 
         public async Task<List<CarViewModel>> GetCarsAsync(int year)
         {
-            _httpClient.DefaultRequestHeaders.Clear();
+            //_httpClient.DefaultRequestHeaders.Clear();
             _httpClient.DefaultRequestHeaders.Add("X-Api-Key", _options.ApiKey);
 
             var makes = new[]
@@ -35,7 +36,7 @@ namespace WebApp.Services
 
                 var json = await response.Content.ReadAsStringAsync();
 
-                List<CarViewModel>? cars = null;
+                List<CarViewModel>? cars;
 
                 cars = JsonSerializer.Deserialize<List<CarViewModel>>(json, new JsonSerializerOptions
                 {

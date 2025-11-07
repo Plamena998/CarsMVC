@@ -4,21 +4,21 @@ using WebApp.Contracts;
 
 namespace WebApp.Controllers
 {
-    [Route("api/v1/[controller]")]
-    [ApiController]
-    public class CarsController : ControllerBase
-    {
-        private readonly ICarsService carsService;
-        public CarsController(ICarsService carsService)
-        {
-            this.carsService = carsService;
-        }
+    //[Route("api/v1/[controller]")]
+    //[ApiController]
+    //public class CarsController : ControllerBase
+    //{
+    //    private readonly ICarsService carsService;
+    //    public CarsController(ICarsService carsService)
+    //    {
+    //        this.carsService = carsService;
+    //    }
 
-        [HttpGet]
-        public async Task<IActionResult> GetCars([FromQuery] string make)
-        {
-            var cars = await carsService.GetCarAsync(make);
-            return Ok(cars);
-        }
-    }
+    //    [HttpGet]
+    //    public async Task<IActionResult> GetCars([FromQuery] string make)
+    //    {
+    //        var cars = await carsService.GetCarAsync(make);
+    //        return Ok(cars);
+    //    }
+    //}
 }

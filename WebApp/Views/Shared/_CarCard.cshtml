@@ -1,15 +1,10 @@
 ﻿@model WebApp.Models.CarViewModel
 
-<div class="col">
-    <div class="card shadow-sm h-100">
-        <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Make @Model.Model">
-        <div class="card-body">
-            <h5 class="card-title">@Model.Make @Model.Model</h5>
-            <p class="card-text text-muted mb-1"><strong>Year:</strong> @Model.Year</p>
-            <p class="card-text mb-0"><strong>Class:</strong> @Model.Class</p>
-            <p class="card-text mb-0"><strong>Transmission:</strong> @Model.Transmission</p>
-            <p class="card-text mb-0"><strong>Drive:</strong> @Model.Drive</p>
-            <p class="card-text mb-0"><strong>Fuel:</strong> @Model.Fuel_Type</p>
-        </div>
+<div class="car-card"
+     onclick="openCarModal('@Model.Make', '@Model.Model', '@Model.Year', '@Model.Class', '@Model.Drive', '@Model.Fuel_Type', '@Model.Transmission', '@Model.ImageUrl')">
+    <img src="@Model.ImageUrl" alt="@Model.Make @Model.Model" />
+    <div class="card-content">
+        <h3>@Model.Make @Model.Model</h3>
+        <button class="more-btn" type="button">More</button>
     </div>
 </div>
