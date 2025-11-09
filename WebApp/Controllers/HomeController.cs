@@ -1,6 +1,6 @@
+﻿using Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Contracts;
-using WebApp.Services;
+
 
 namespace WebApp.Controllers
 {
@@ -15,9 +15,9 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var cars = await _carService.GetCarsAsync(1996);
-            return View(cars);
+            var topCars = await _carService.GetTop10CarsByYear(1996);  // ГОДИНА 1
 
+            return View(topCars); // предава топ 10
         }
     }
 }

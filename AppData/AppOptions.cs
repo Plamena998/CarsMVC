@@ -1,4 +1,4 @@
-﻿namespace WebApp.Models
+﻿namespace Core.Models
 {
     // Клас за мапване на ApiParameters от appsettings.json
     public class AppOptions

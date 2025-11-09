@@ -1,4 +1,5 @@
-﻿@model WebApp.Models.CarViewModel
+﻿@using Core.Models
+@model CarViewModel
 
 <div class="car-card"
      onclick="openCarModal('@Model.Make', '@Model.Model', '@Model.Year', '@Model.Class', '@Model.Drive', '@Model.Fuel_Type', '@Model.Transmission', '@Model.ImageUrl')">

@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using WebApp.Contracts;
-
+﻿
 namespace WebApp.Controllers
 {
     //[Route("api/v1/[controller]")]
