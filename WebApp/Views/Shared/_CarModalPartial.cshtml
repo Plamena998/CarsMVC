@@ -1,0 +1,17 @@
+﻿@using Core
+@model CarViewModel
+
+<div id="carModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" style="cursor:pointer;">&times;</span>
+        <img id="modalImage" src="@Model.ImageUrl" alt="@Model.Make @Model.Model" />
+        <h3>@Model.Make @Model.Model</h3>
+        <div id="modalDetails">
+            <p><strong>Year:</strong> @Model.Year</p>
+            <p><strong>Class:</strong> @Model.Class</p>
+            <p><strong>Drive:</strong> @Model.Drive</p>
+            <p><strong>Fuel:</strong> @Model.Fuel_Type</p>
+            <p><strong>Transmission:</strong> @Model.Transmission</p>
+        </div>
+    </div>
+</div>

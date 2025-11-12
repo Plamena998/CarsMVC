@@ -1,11 +1,10 @@
-﻿@using Core.Models
+﻿@using Core
 @model CarViewModel
 
-<div class="car-card"
-     onclick="openCarModal('@Model.Make', '@Model.Model', '@Model.Year', '@Model.Class', '@Model.Drive', '@Model.Fuel_Type', '@Model.Transmission', '@Model.ImageUrl')">
+<div class="car-card">
     <img src="@Model.ImageUrl" alt="@Model.Make @Model.Model" />
     <div class="card-content">
         <h3>@Model.Make @Model.Model</h3>
-        <button class="more-btn" type="button">More</button>
+        <button class="more-btn" data-car-make="@Model.Make" data-car-model="@Model.Model" data-car-year="@Model.Year" type="button">More</button>
     </div>
 </div>

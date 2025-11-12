@@ -14,6 +14,8 @@ builder.Services.AddControllersWithViews();
 // Зареждаме настройките от appsettings.json → AppOptions
 builder.Services.Configure<AppOptions>(builder.Configuration.GetSection(AppOptions.ApiParameters));
 
+
+
 // Регистрираме DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -52,5 +54,11 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+//////////допълнително
+var sScope = app.Services.CreateScope();
+var instance = sScope.ServiceProvider.GetRequiredService<DataSeed>();
+await instance.SeedAllCarsAsync();
 
 await app.RunAsync();

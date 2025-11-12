@@ -1,7 +1,8 @@
-﻿using Microsoft.Extensions.Options;
-using System.Text.Json;
+﻿using Core;
 using Core.Contracts;
 using Core.Models;
+using Microsoft.Extensions.Options;
+using System.Text.Json;
 
 namespace Services
 {
@@ -64,6 +65,17 @@ namespace Services
         {
             var allCars = await GetCarsAsync(year);
             return allCars.Take(10).ToList();
+        }
+
+        public async Task<CarViewModel?> GetCarFromLoadedDataAsync(string make, string model, int year)
+        {
+            var allCars = await GetCarsAsync(year);
+
+            // Намираме конкретната кола от вече заредените
+            var car = allCars.FirstOrDefault(c =>
+                c.Make.Equals(make, StringComparison.OrdinalIgnoreCase) &&
+                c.Model.Equals(model, StringComparison.OrdinalIgnoreCase));
+            return car;
         }
     }
 }

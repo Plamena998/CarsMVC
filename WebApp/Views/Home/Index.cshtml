@@ -1,4 +1,4 @@
-﻿@using Core.Models
+﻿@using Core
 @model IEnumerable<CarViewModel>
 
 @{
@@ -7,7 +7,7 @@
 
 <h2 class="page-title">Top 10 Cars from 1996</h2>
 
-<div class="card-grid">
+<div class="cars-grid">
     @foreach (var car in Model)
     {
         @await Html.PartialAsync("_CarCard", car)   // Рендерира всяка карта на кола чрез partuial view
@@ -15,15 +15,22 @@
         //<partial name="_CarCard.cshtml"></partial>   //друг вариант да добавяне на partial view
     }
 </div>
+<div id="modalContainer"></div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/car.js"></script>
+}
+@* <div class="btn btn-primary">
+    <a asp-action="index">Add</a> <!--ще търси по дефолт име екшъна-->
+</div> *@
+<!--
+@@modal CarViewModel
+<form method="post" asp-antiforgery="false" >
+    <label asp-for="CarViewModel.Make">Car Make</label>
+    <input asp-for="CarViewModel.Make"/>
+    <button type="submit">
+        <div class="btn btn-light">Submit</div>
+    </button>
 
-<!-- Modal Window -->
-<div id="carModal" class="modal">
-    <div class="modal-content">
-        <img id="modalImage" src="" alt="Car Image" />
-        <h3 id="modalTitle"></h3>
-        <div id="modalDetails"></div>
-    </div>
-</div>
-
-
-
+</form>
+-->
