@@ -1,10 +1,9 @@
-﻿@using Core
-@model CarViewModel
+﻿@model Core.CarViewModel
 
 <div class="car-card">
     <img src="@Model.ImageUrl" alt="@Model.Make @Model.Model" />
     <div class="card-content">
         <h3>@Model.Make @Model.Model</h3>
-        <button class="more-btn" data-car-make="@Model.Make" data-car-model="@Model.Model" data-car-year="@Model.Year" type="button">More</button>
+        <button class="more-btn" data-car-id="@Model.Id" type="button">More</button>
     </div>
 </div>

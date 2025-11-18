@@ -1,4 +1,4 @@
-﻿@using Core
+﻿﻿@using Core
 @model IEnumerable<CarViewModel>
 
 @{
@@ -10,16 +10,14 @@
 <div class="cars-grid">
     @foreach (var car in Model)
     {
-        @await Html.PartialAsync("_CarCard", car)   // Рендерира всяка карта на кола чрез partuial view
+        @await Html.PartialAsync("_CarCard", car)
+        // Рендерира всяка карта на кола чрез partuial view
 
         //<partial name="_CarCard.cshtml"></partial>   //друг вариант да добавяне на partial view
     }
 </div>
-<div id="modalContainer"></div>
-@section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="~/js/car.js"></script>
-}
+
+
 @* <div class="btn btn-primary">
     <a asp-action="index">Add</a> <!--ще търси по дефолт име екшъна-->
 </div> *@

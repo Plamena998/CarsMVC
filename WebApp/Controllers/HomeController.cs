@@ -15,9 +15,9 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var topCars = await _carService.GetTop10CarsByYear(1996);  // ГОДИНА 1
+            var topCars = await _carService.GetTop10CarsByYear(1996);
 
-            return View(topCars); // предава топ 10
+            return View(topCars);
         }
     }
 }

@@ -1,17 +1,23 @@
-﻿@using Core
-@model CarViewModel
+﻿@model Core.CarViewModel
 
-<div id="carModal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" style="cursor:pointer;">&times;</span>
-        <img id="modalImage" src="@Model.ImageUrl" alt="@Model.Make @Model.Model" />
-        <h3>@Model.Make @Model.Model</h3>
-        <div id="modalDetails">
-            <p><strong>Year:</strong> @Model.Year</p>
-            <p><strong>Class:</strong> @Model.Class</p>
-            <p><strong>Drive:</strong> @Model.Drive</p>
-            <p><strong>Fuel:</strong> @Model.Fuel_Type</p>
-            <p><strong>Transmission:</strong> @Model.Transmission</p>
+<div class="modal fade" id="carModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">@Model.Make @Model.Model</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <img src="@Model.ImageUrl" class="img-fluid mb-3" alt="@Model.Make @Model.Model" />
+                <p><strong>Year:</strong> @Model.Year</p>
+                <p><strong>Class:</strong> @Model.Class</p>
+                <p><strong>Drive:</strong> @Model.Drive</p>
+                <p><strong>Fuel:</strong> @Model.Fuel_Type</p>
+                <p><strong>Transmission:</strong> @Model.Transmission</p>
+            </div>
+
         </div>
     </div>
 </div>

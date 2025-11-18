@@ -1,5 +1,6 @@
 ﻿using Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace WebApp.Controllers
 {
@@ -13,15 +14,11 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCarModal(string make, string model, int year)
+        public async Task<IActionResult> GetCarModal(int id)
         {
-            var car = await _carService.GetCarFromLoadedDataAsync(make, model, year);
-
-            if (car == null)
-                return NotFound();
-
+            var car = await _carService.GetCarByIdAsync(id);
+            if (car == null) return NotFound();
             return PartialView("_CarModalPartial", car);
         }
-
     }
 }

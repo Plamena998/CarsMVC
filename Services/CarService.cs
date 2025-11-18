@@ -1,81 +1,57 @@
 ﻿using Core;
 using Core.Contracts;
 using Core.Models;
-using Microsoft.Extensions.Options;
-using System.Text.Json;
+using Services.Repositories;
 
 namespace Services
 {
     public class CarService : ICarsService
     {
-        private readonly HttpClient _httpClient;
-        private readonly AppOptions _options;
+        private readonly IRepository _carRepository;
 
-        public CarService(HttpClient httpClient, IOptions<AppOptions> options)
+        public CarService(IRepository carRepository)
         {
-            _httpClient = httpClient;
-            _options = options.Value;
+            _carRepository = carRepository;
         }
-        public async Task<List<CarViewModel>> GetCarsAsync(int year)
-        {
-            // Добавя ключа само веднъж
-            if (!_httpClient.DefaultRequestHeaders.Contains("X-Api-Key"))
-                _httpClient.DefaultRequestHeaders.Add("X-Api-Key", _options.ApiKey);
 
-            var makes = new[]
+        // Мапване от Car към CarViewModel
+        private CarViewModel MapToViewModel(Car c)
+        {
+            return new CarViewModel
             {
-            "toyota", "honda", "ford", "bmw", "audi",
-            "nissan", "mazda", "chevrolet", "mercedes", "kia",
-            "hyundai", "volkswagen", "subaru", "volvo", "lexus",
-            "jaguar", "porsche", "fiat", "peugeot", "renault",
-            "mitsubishi", "landrover", "tesla", "infiniti", "acura",
-            "mini", "seat", "skoda", "citroen", "alfa romeo"
+                Id = c.Id,
+                Make = c.Make,
+                Model = c.Model,
+                Year = c.Year,
+                Class = c.Class,
+                Drive = c.Drive,
+                Transmission = c.Transmission,
+                Fuel_Type = c.Fuel_Type,
+                City_Mpg = c.City_Mpg,
+                Combination_Mpg = c.Combination_Mpg,
+                Highway_Mpg = c.Highway_Mpg,
+                Cylinders = c.Cylinders,
+                Displacement = c.Displacement
             };
-
-            // Създава паралелни задачи за всички марки
-            var tasks = makes.Select(async make =>
-            {
-                string url = $"{_options.Url}?make={make}&year={year}";
-                try
-                {
-                    var response = await _httpClient.GetAsync(url);
-                    if (!response.IsSuccessStatusCode) return new List<CarViewModel>();
-
-                    var json = await response.Content.ReadAsStringAsync();
-                    var cars = JsonSerializer.Deserialize<List<CarViewModel>>(json, new JsonSerializerOptions
-                    {
-                        PropertyNameCaseInsensitive = true,
-                        AllowTrailingCommas = true
-                    }) ?? new List<CarViewModel>();
-                    return cars;
-                }
-                catch
-                {
-                    return new List<CarViewModel>();
-                }
-            });
-
-            // Изпълняваме всички заявки едновременно
-            var results = await Task.WhenAll(tasks);
-            return results.SelectMany(x => x).ToList();
         }
 
-        // Връща топ 10 коли по конкретна година (само за визуализация)
+        // Връща топ 10 коли от дадена година
         public async Task<List<CarViewModel>> GetTop10CarsByYear(int year)
         {
-            var allCars = await GetCarsAsync(year);
-            return allCars.Take(10).ToList();
+            var cars = await _carRepository.GetTop10CarsByYear(year);
+            return cars.Select(MapToViewModel).ToList();
         }
 
-        public async Task<CarViewModel?> GetCarFromLoadedDataAsync(string make, string model, int year)
+        // Връща кола по ID за модалния прозорец
+        public async Task<CarViewModel?> GetCarByIdAsync(int id)
         {
-            var allCars = await GetCarsAsync(year);
+            var car = await _carRepository.GetCarByIdAsync(id);
 
-            // Намираме конкретната кола от вече заредените
-            var car = allCars.FirstOrDefault(c =>
-                c.Make.Equals(make, StringComparison.OrdinalIgnoreCase) &&
-                c.Model.Equals(model, StringComparison.OrdinalIgnoreCase));
-            return car;
+            if (car == null)
+                return null;
+
+            return MapToViewModel(car);
         }
+
     }
 }
