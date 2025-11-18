@@ -21,29 +21,6 @@ body {
     margin-bottom: 60px;
 }
 
-/* Контейнер на модала */
-.modal {
-    visibility: hidden;
-    opacity: 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.6);
-    transition: opacity 0.25s ease-in-out, visibility 0.25s ease-in-out;
-    z-index: 9999;
-}
-
-    /* Клас за показване на модала */
-    .modal.show {
-        visibility: visible;
-        opacity: 1;
-    }
-
 /* Съдържанието на модала */
 .modal-content {
     position: relative;
@@ -89,11 +66,14 @@ body {
 
 /* Контейнер за всички картички */
 .cars-grid {
-    display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
     margin: 20px auto;
+    display: grid;
+    gap: 20px;
+    align-items: stretch; 
+    grid-template-columns: repeat(5, 1fr);
 }
 
 /* Отделна картичка */
@@ -106,6 +86,8 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     transition: transform 0.2s, box-shadow 0.2s;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
 }
 
     .car-card:hover {
@@ -123,10 +105,28 @@ body {
         border-radius: 8px 8px 0 0;
     }
 
+.card-content h3 {
+    font-size: 18px;
+    line-height: 1.2;
+    height: 2.4em; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
+
 /* Съдържание на картичката */
 .card-content {
-    padding: 15px;
-    text-align: center;
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    margin-top: auto;
+}
+
+.card-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* Бутон "More" */
@@ -144,6 +144,45 @@ body {
  .more-btn:hover {
         background-color: #0056b3;
  }
+
+
+/* Like button styles */
+.like-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 6px;
+    font-size: 20px;
+    color: rgba(0,0,0,0.35); 
+    transition: transform .12s ease, color .12s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+    .like-btn:hover {
+        transform: scale(1.05);
+    }
+
+    /* "Liked" state */
+    .like-btn.liked {
+        color: #1877f2;
+        transform: scale(1.15);
+    }
+
+    .like-btn i {
+        pointer-events: none;
+    }
+
+/* Toast / small alert style */
+.custom-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 20000;
+    min-width: 240px;
+    box-shadow: 0 6px 20px rgba(0,0,0,.12);
+}
 
 
 @media (max-width: 1200px) {

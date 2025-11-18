@@ -4,6 +4,13 @@
     <img src="@Model.ImageUrl" alt="@Model.Make @Model.Model" />
     <div class="card-content">
         <h3>@Model.Make @Model.Model</h3>
-        <button class="more-btn" data-car-id="@Model.Id" type="button">More</button>
+        <div class="card-buttons">
+            <button class="more-btn btn btn-primary" data-car-id="@Model.Id">
+                More
+            </button>
+            <button class="like-btn" data-car-id="@Model.Id">
+                <i class="bi bi-hand-thumbs-up"></i>
+            </button>
+        </div>
     </div>
 </div>
