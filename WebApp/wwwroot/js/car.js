@@ -56,22 +56,75 @@ function showSuccessMessage(message) {
         $alert.remove();
     });
 }
+//стар код за like-бутона
+////Toggle like (delegated binding)
+//$(document).on("click", ".like-btn", function (e) {
+//    e.preventDefault();
 
-//Toggle like (delegated binding)
+//    var $btn = $(this);
+//    var carId = $btn.data("car-id");
+
+//    //Toggle class
+//    $btn.toggleClass("liked");
+
+//    //Toggle aria-pressed for accessibility
+//    var pressed = $btn.hasClass("liked");
+//    $btn.attr("aria-pressed", pressed ? "true" : "false");
+
+//    //Toggle icon classes (outline <-> fill)
+//    var $icon = $btn.find("i");
+//    if ($btn.hasClass("liked")) {
+//        $icon.removeClass("bi-hand-thumbs-up").addClass("bi-hand-thumbs-up-fill");
+//        showSuccessMessage("Колата е добавена към любими!");
+//    } else {
+//        $icon.removeClass("bi-hand-thumbs-up-fill").addClass("bi-hand-thumbs-up");
+//        showSuccessMessage("Колата е премахната от любими.");
+//    }
+
+//    try {
+//        var key = "favoriteCars";
+//        var favorites = JSON.parse(localStorage.getItem(key) || "[]");
+//        if ($btn.hasClass("liked")) {
+//            // добавя ако не съществува
+//            if (favorites.indexOf(carId) === -1) favorites.push(carId);
+//        } else {
+//            // премахва
+//            favorites = favorites.filter(function (id) { return id != carId; });
+//        }
+//        localStorage.setItem(key, JSON.stringify(favorites));
+//    } catch (err) {
+//        //ignore localStorage errors in private mode
+//        console.warn("localStorage error:", err);
+//    }
+
+//    //AJAX запис в бекенда
+//    /*
+//    $.post("/Favorites/Toggle", { id: carId })
+//        .done(function(resp) { /* обработи резултат ако трябва *\/ })
+//        .fail(function() { showSuccessMessage("Възникна грешка при добавяне."); });
+//    */
+//});
+
+// Like button click
 $(document).on("click", ".like-btn", function (e) {
-    e.preventDefault();
-
     var $btn = $(this);
+
+    // Ако бутонът е за нелогнат потребител -> модалът се показва от Bootstrap, не правим нищо
+    if ($btn.attr("data-bs-toggle") === "modal") {
+        return;
+    }
+
+    e.preventDefault();
     var carId = $btn.data("car-id");
 
-    //Toggle class
+    // Toggle class
     $btn.toggleClass("liked");
 
-    //Toggle aria-pressed for accessibility
+    // Toggle aria-pressed
     var pressed = $btn.hasClass("liked");
     $btn.attr("aria-pressed", pressed ? "true" : "false");
 
-    //Toggle icon classes (outline <-> fill)
+    // Toggle icon
     var $icon = $btn.find("i");
     if ($btn.hasClass("liked")) {
         $icon.removeClass("bi-hand-thumbs-up").addClass("bi-hand-thumbs-up-fill");
@@ -81,27 +134,24 @@ $(document).on("click", ".like-btn", function (e) {
         showSuccessMessage("Колата е премахната от любими.");
     }
 
+    // LocalStorage
     try {
         var key = "favoriteCars";
         var favorites = JSON.parse(localStorage.getItem(key) || "[]");
         if ($btn.hasClass("liked")) {
-            // добавя ако не съществува
-            if (favorites.indexOf(carId) === -1) favorites.push(carId);
+            if (!favorites.includes(carId)) favorites.push(carId);
         } else {
-            // премахва
-            favorites = favorites.filter(function (id) { return id != carId; });
+            favorites = favorites.filter(id => id != carId);
         }
         localStorage.setItem(key, JSON.stringify(favorites));
     } catch (err) {
-        //ignore localStorage errors in private mode
         console.warn("localStorage error:", err);
     }
 
-    //AJAX запис в бекенда
+    // AJAX към бекенда (ако имаш endpoint)
     /*
     $.post("/Favorites/Toggle", { id: carId })
-        .done(function(resp) { /* обработи резултат ако трябва *\/ })
+        .done(function(resp) { /* обработи резултат *\/ })
         .fail(function() { showSuccessMessage("Възникна грешка при добавяне."); });
     */
 });
-

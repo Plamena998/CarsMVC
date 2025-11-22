@@ -1,4 +1,7 @@
-﻿@model Core.CarViewModel
+﻿@using Core
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@model Core.CarViewModel
 
 <div class="car-card">
     <img src="@Model.ImageUrl" alt="@Model.Make @Model.Model" />
@@ -8,8 +11,14 @@
             <button class="more-btn btn btn-primary" data-car-id="@Model.Id">
                 More
             </button>
-            <button class="like-btn" data-car-id="@Model.Id">
-                <i class="bi bi-hand-thumbs-up"></i>
+            <button class="like-btn btn btn-outline-primary"
+                    data-car-id="@Model.Id"
+                    @if (!SignInManager.IsSignedIn(User))
+                    {
+                    <text>data-bs-toggle="modal" data-bs-target="#loginPromptModal"</text>
+                    }
+             >
+           <i class="bi bi-hand-thumbs-up"></i>
             </button>
         </div>
     </div>
