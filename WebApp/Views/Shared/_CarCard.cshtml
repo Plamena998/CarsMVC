@@ -11,14 +11,15 @@
             <button class="more-btn btn btn-primary" data-car-id="@Model.Id">
                 More
             </button>
-            <button class="like-btn btn btn-outline-primary"
+
+            <button class="like-btn btn btn-outline-primary @(Model.IsLiked ? "liked" : "")"
                     data-car-id="@Model.Id"
                     @if (!SignInManager.IsSignedIn(User))
                     {
-                    <text>data-bs-toggle="modal" data-bs-target="#loginPromptModal"</text>
+                            <text>data-bs-toggle="modal" data-bs-target="#loginPromptModal"</text>
                     }
-             >
-           <i class="bi bi-hand-thumbs-up"></i>
+>
+                <i class="bi @(Model.IsLiked ? "bi-hand-thumbs-up-fill" : "bi-hand-thumbs-up")"></i>
             </button>
         </div>
     </div>

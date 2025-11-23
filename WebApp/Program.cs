@@ -28,6 +28,7 @@ builder.Services.AddScoped<IAppEnvironment, AppEnvironment>();
 builder.Services.AddScoped<FileManager>();
 builder.Services.AddScoped<IRepository, CarRepository>();
 builder.Services.AddScoped<ICarsService, CarService>();
+builder.Services.AddScoped<IFavoriteService, FavoriteService>();
 
 // HttpClient не е нужен, ако вече не използваме API
 // builder.Services.AddHttpClient<CarService>();

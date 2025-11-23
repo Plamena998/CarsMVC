@@ -16,5 +16,6 @@
         public int? Cylinders { get; set; }
         public double? Displacement { get; set; }
         public string? ImageUrl => $"/images/{Make.ToLower()}.jpg";
+        public bool IsLiked { get; set; } 
     }
 }
